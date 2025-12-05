@@ -1,21 +1,32 @@
-// Load up the inventory on each page when it loads
-// sessionStorage persists only while the browser tab is open
-// sessionStorage is local to that browser and tab
-document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("inventory1").src =
-    sessionStorage.getItem("slot1") || "";
-  document.getElementById("inventory2").src =
-    sessionStorage.getItem("slot2") || "";
-  document.getElementById("inventory3").src =
-    sessionStorage.getItem("slot3") || "";
-  document.getElementById("inventory4").src =
-    sessionStorage.getItem("slot4") || "";
-  document.getElementById("inventory5").src =
-    sessionStorage.getItem("slot5") || "";
-  document.getElementById("inventory6").src =
-    sessionStorage.getItem("slot6") || "";
-});
-console.log(sessionStorage.getItem("slot3"));
+// --------------- INVENTORY CODE --------------- //
+console.log("window.location.href =", window.location.href);
+console.log("window.location.search =", window.location.search);
+
+function getInventoryString() {
+  const params = new URLSearchParams(window.location.search);
+  console.log("Inventory from URL:", params.get("inv")); // should log "001000"
+  return params.get("inv") || "000000";
+}
+
+function loadInventory() {
+  const inv = getInventoryString(); // e.g. "1010"
+
+  if (inv[0] === "1")
+    document.getElementById("inventory1").src = "images/radish.png";
+  if (inv[1] === "1")
+    document.getElementById("inventory2").src = "images/katana.png";
+  if (inv[2] === "1")
+    document.getElementById("inventory3").src = "images/AztecPotion.png";
+  if (inv[3] === "1")
+    document.getElementById("inventory4").src = "images/sea_serpent_scale.png";
+  if (inv[4] === "1")
+    document.getElementById("inventory5").src = "images/frost_giant_tears.png";
+  if (inv[5] === "1")
+    document.getElementById("inventory6").src = "images/power.png";
+}
+
+document.addEventListener("DOMContentLoaded", loadInventory);
+// --------------- INVENTORY CODE --------------- //
 
 var g1 = document.getElementById("one");
 var g2 = document.getElementById("two");
@@ -105,12 +116,17 @@ function match() {
     checkmatch();
     m.pause();
     document.getElementById("inventory3").src = "images/AztecPotion.png";
-    sessionStorage.setItem("slot3", "images/AztecPotion.png");
-    console.log(sessionStorage.getItem("slot3"));
+    // Update inventory string
+    let inv = getInventoryString().split("");
+    inv[2] = "1"; // slot 3 collected
+    const newInv = inv.join("");
+    console.log("Updated inventory:", newInv);
 
+    // Redirect with UPDATED inventory
     setTimeout(function () {
-      window.location.href = "https://nnn9t3.csb.app/";
-    }, 2000);
+      window.location.replace(`https://nnn9t3.csb.app/?inv=${newInv}`);
+    }, 500);
+
     /*const modal = document.getElementById("previouse");
     modal.classList.add("show");
     modal.style.display = "flex";*/
@@ -167,37 +183,3 @@ function checkmatch() {
     g8.onclick = null;
   }
 }
-/*
-  if (
-    g1.src.match("images/SunGodHead.png") &&
-    g5.src.match("images/SunGodBody.png") &&
-    g2.src.match("images/WaterGodHead.png") &&
-    g6.src.match("images/WaterGodBody.png") &&
-    g3.src.match("images/AirGodHead.png") &&
-    g7.src.match("images/AirGodBody.png") &&
-    g4.src.match("images/DeathGodHead.png") &&
-    g8.src.match("images/DeathGodBody.png")
-  ) {
-    checkmatch();
-    m.pause();
-    u1.src = "images/AztecPotion.png";
-    sessionStorage.setItem("slot3", "images/AztecPotion.png");
-    u1.className = "no-filter";
-    const modal = document.getElementById("previouse");
-    modal.classList.add("show");
-    modal.style.display = "flex";
-  } else {
-    m.play();
-    // CONFETTI POP
-    document.body.insertAdjacentHTML(
-      "beforeend",
-      '<div class="my-text" id="confetti">incorrect</div>'
-    );
-
-    setTimeout(() => {
-      document.getElementById("confetti").remove();
-    }, 1200);
-  }
-  checkmatch();
-  console.log(x);
-*/
