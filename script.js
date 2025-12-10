@@ -124,7 +124,7 @@ function match() {
 
     // Redirect with UPDATED inventory
     setTimeout(function () {
-      window.location.replace(`https://nnn9t3.csb.app/?inv=${newInv}`);
+      window.location.replace(`https://stitchg.github.io/Final_Room_Time/?inv=${newInv}`);
     }, 500);
 
     /*const modal = document.getElementById("previouse");
